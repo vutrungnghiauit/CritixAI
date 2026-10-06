@@ -1,0 +1,6 @@
+{
+  "name": "CritixAI - Nền tảng Tư Duy Phản Biện & Tranh Biện Học Thuật",
+  "description": "Hệ thống AI rèn luyện kỹ năng tư duy phản biện, tranh biện đại học chuẩn WUDC, phân tích case study thực tế và quản lý học thuật chuyên sâu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
