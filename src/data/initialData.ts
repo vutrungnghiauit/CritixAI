@@ -742,6 +742,98 @@ export const INITIAL_GROUP_ROOMS: GroupRoom[] = [
       ],
       masterSynthesis: 'Bản Luận Điểm Nhóm Toàn Bích: "Hệ thống sở hữu trí tuệ hiện đại cần từ bỏ lối tư duy nhị nguyên (Toàn quyền hoặc Hoàn toàn không bản quyền). Chúng tôi đề xuất cơ chế Bản Quyền Phái Sinh Có Kỳ Hạn (5 năm) dành cho các sản phẩm có sự phối hợp đáng kể giữa con người và AI. Điều kiện tiên quyết là nhà sản xuất phải minh bạch nguồn dữ liệu huấn luyện và nộp 10% doanh thu bản quyền vào Quỹ Tái đầu tư Văn hóa Cộng đồng. Giải pháp này vừa thúc đẩy ứng dụng công nghệ, vừa bảo vệ công bằng xã hội và ngăn chặn nguy cơ ngụy biện dốc trượt."'
     }
+  },
+  {
+    id: 'room-2',
+    code: 'CTX-5521',
+    title: 'Khủng Hoảng Giá Phòng Trọ Đô Thị Sau Thiên Tai & Giải Pháp Nhà Ở',
+    topicType: 'case_study',
+    format: 'Harvard Case Method',
+    createdAt: 'Hôm nay',
+    status: 'active',
+    members: [
+      {
+        id: 'sub-201',
+        studentId: '2500010001',
+        studentName: 'Trịnh Bảo An',
+        university: 'Trường Đại học Nguyễn Tất Thành (NTTU)',
+        side: 'Pro',
+        roleInTeam: 'Đại diện Sinh viên Thuê trọ',
+        speechContent: 'Cần thiết lập khung trần giá thuê trọ tối đa xung quanh các bán kính trường đại học 3km và xử phạt các chủ trọ tự ý tăng giá điện nước.',
+        wordCount: 35,
+        submittedAt: 'Hôm nay'
+      },
+      {
+        id: 'sub-202',
+        studentId: '2500010003',
+        studentName: 'Đinh Nhật Nam',
+        university: 'Trường Đại học Nguyễn Tất Thành (NTTU)',
+        side: 'Independent',
+        roleInTeam: 'Hội đồng Điều phối Chính sách',
+        speechContent: 'Đề xuất mô hình Hợp tác công tư PPP xây dựng Ký túc xá xã hội hóa với giá bảo trợ, đồng thời hỗ trợ thuế cho chủ trọ cam kết giữ giá.',
+        wordCount: 38,
+        submittedAt: 'Hôm nay'
+      }
+    ],
+    chatMessages: [
+      {
+        id: 'msg-r2-1',
+        roomId: 'room-2',
+        studentId: '2500010001',
+        studentName: 'Trịnh Bảo An',
+        university: 'Trường Đại học Nguyễn Tất Thành (NTTU)',
+        side: 'Pro',
+        roleInTeam: 'Chủ tọa phòng',
+        messageType: 'idea',
+        content: 'Chào các bạn! Phòng này tập trung giải quyết bài toán mâu thuẫn giữa quyền sinh tồn của sinh viên nghèo và quy luật thị trường của các chủ trọ đô thị.',
+        timestamp: '09:15',
+        reactions: { '👍': 4 }
+      }
+    ]
+  },
+  {
+    id: 'room-3',
+    code: 'CTX-3390',
+    title: 'Deepfake Mạo Danh Giảng Viên Lừa Đảo: Quy Trình Xác Thực An Ninh Mạng',
+    topicType: 'debate',
+    format: 'Parliamentary WUDC',
+    createdAt: 'Hôm qua',
+    status: 'active',
+    members: [
+      {
+        id: 'sub-301',
+        studentId: '2500010002',
+        studentName: 'Võ Mai Chi',
+        university: 'Trường Đại học Nguyễn Tất Thành (NTTU)',
+        side: 'Con',
+        roleInTeam: 'Lãnh đạo đối lập',
+        speechContent: 'Không thể đổ lỗi cho nạn nhân khi kẻ lừa đảo sử dụng mô hình AI giả mạo tinh vi. Trách nhiệm chính thuộc về hạ tầng an ninh mạng của nhà trường.',
+        wordCount: 32,
+        submittedAt: 'Hôm qua'
+      }
+    ]
+  },
+  {
+    id: 'room-4',
+    code: 'CTX-1945',
+    title: 'Cam Kết Net-Zero & Cấm Xe Máy Xăng Trong Giảng Đường Đại Học',
+    topicType: 'debate',
+    format: 'Karl Popper',
+    createdAt: '2 ngày trước',
+    status: 'active',
+    members: [
+      {
+        id: 'sub-401',
+        studentId: '2500010004',
+        studentName: 'Hà Thảo My',
+        university: 'Trường Đại học Nguyễn Tất Thành (NTTU)',
+        side: 'Pro',
+        roleInTeam: 'Chủ tọa tranh biện',
+        speechContent: 'Đại học tiên phong xanh cần hành động quyết liệt. Nếu không cấm xe xăng thì cam kết Net-Zero mãi mãi chỉ là khẩu hiệu hình thức.',
+        wordCount: 29,
+        submittedAt: '2 ngày trước'
+      }
+    ]
   }
 ];
 

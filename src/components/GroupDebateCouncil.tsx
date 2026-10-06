@@ -27,7 +27,15 @@ import {
   X,
   CheckCircle2,
   Calendar,
-  Layers
+  Layers,
+  Search,
+  Trash2,
+  DoorOpen,
+  Swords,
+  FileText,
+  Lock,
+  Unlock,
+  Hash
 } from 'lucide-react';
 
 interface GroupDebateCouncilProps {
@@ -56,7 +64,11 @@ export const GroupDebateCouncil: React.FC<GroupDebateCouncilProps> = ({
   const [newSpeech, setNewSpeech] = useState('');
   const [memberRole, setMemberRole] = useState('Thành viên phản biện');
   const [memberSide, setMemberSide] = useState<'Pro' | 'Con' | 'Independent'>('Pro');
-  const [activeTab, setActiveTab] = useState<'chat' | 'synthesis' | 'submissions' | 'notes'>('chat');
+  const [activeTab, setActiveTab] = useState<'lobby' | 'chat' | 'synthesis' | 'submissions' | 'notes'>('chat');
+
+  // Room Lobby Search & Filter
+  const [searchLobbyQuery, setSearchLobbyQuery] = useState('');
+  const [filterLobbyType, setFilterLobbyType] = useState<'all' | 'debate' | 'case_study'>('all');
 
   // Create Room Modal States
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
@@ -64,6 +76,7 @@ export const GroupDebateCouncil: React.FC<GroupDebateCouncilProps> = ({
   const [newRoomType, setNewRoomType] = useState<'debate' | 'case_study'>('debate');
   const [newRoomFormat, setNewRoomFormat] = useState('Parliamentary WUDC');
   const [newRoomCode, setNewRoomCode] = useState(`CTX-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [newRoomMaxMembers, setNewRoomMaxMembers] = useState(8);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'info' } | null>(null);
 
   // Join Room by Code Modal States
@@ -346,6 +359,7 @@ export const GroupDebateCouncil: React.FC<GroupDebateCouncilProps> = ({
     setShowCreateRoomModal(false);
     setNewRoomTitle('');
     setNewRoomCode(`CTX-${Math.floor(1000 + Math.random() * 9000)}`);
+    setActiveTab('chat');
     setNotification({ message: `Đã tạo thành công phòng hội đồng mới: "${newRoom.title}" (Mã: ${newRoom.code})`, type: 'success' });
     setTimeout(() => setNotification(null), 4500);
   };
@@ -361,11 +375,45 @@ export const GroupDebateCouncil: React.FC<GroupDebateCouncilProps> = ({
       setBrainstormNotes(targetRoom.brainstormNotes || []);
       setShowJoinModal(false);
       setJoinCodeInput('');
+      setActiveTab('chat');
       setNotification({ message: `Đã kết nối thành công vào phòng: "${targetRoom.title}"!`, type: 'success' });
     } else {
       setNotification({ message: `Không tìm thấy phòng với mã "${cleanCode}". Vui lòng thử lại!`, type: 'info' });
     }
     setTimeout(() => setNotification(null), 4500);
+  };
+
+  const handleSwitchRoom = (room: GroupRoom) => {
+    setSelectedRoom(room);
+    setChatMessages(room.chatMessages || []);
+    setBrainstormNotes(room.brainstormNotes || []);
+    setActiveTab('chat');
+    setNotification({ message: `Đã chuyển vào phòng: "${room.title}"!`, type: 'success' });
+    setTimeout(() => setNotification(null), 4000);
+  };
+
+  const handleDeleteRoom = (roomId: string) => {
+    if (rooms.length <= 1) {
+      setNotification({ message: 'Không thể xóa phòng duy nhất còn lại!', type: 'info' });
+      return;
+    }
+    const updated = rooms.filter(r => r.id !== roomId);
+    onUpdateRooms(updated);
+    if (selectedRoom.id === roomId) {
+      setSelectedRoom(updated[0]);
+      setChatMessages(updated[0].chatMessages || []);
+      setBrainstormNotes(updated[0].brainstormNotes || []);
+    }
+    setNotification({ message: 'Đã xóa phòng thảo luận thành công!', type: 'success' });
+    setTimeout(() => setNotification(null), 4000);
+  };
+
+  const handleQuickPresetCreate = (title: string, type: 'debate' | 'case_study', format: string) => {
+    setNewRoomTitle(title);
+    setNewRoomType(type);
+    setNewRoomFormat(format);
+    setNewRoomCode(`CTX-${Math.floor(1000 + Math.random() * 9000)}`);
+    setShowCreateRoomModal(true);
   };
 
   const filteredMembers = selectedRoom.members.filter(m => {
@@ -455,18 +503,33 @@ export const GroupDebateCouncil: React.FC<GroupDebateCouncilProps> = ({
             ))}
           </select>
 
-          {/* Create Room Button */}
+          {/* Create Room Button with High Visual Affordance */}
           <button
             type="button"
             onClick={() => {
               setNewRoomCode(`CTX-${Math.floor(1000 + Math.random() * 9000)}`);
               setShowCreateRoomModal(true);
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20 transition cursor-pointer shrink-0"
-            title="Tạo phòng tranh biện / case study nhóm mới"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 transition cursor-pointer shrink-0"
+            title="Khởi tạo phòng tranh biện / case study nhóm mới"
           >
-            <Plus className="w-4 h-4" />
-            <span>Tạo Phòng Mới</span>
+            <Plus className="w-4 h-4 text-amber-300 animate-pulse" />
+            <span>+ Tạo Phòng Mới</span>
+          </button>
+
+          {/* Room Lobby Button */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('lobby')}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 ${
+              activeTab === 'lobby'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+            }`}
+            title="Xem danh sách tất cả các phòng hội đồng"
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>Sảnh Phòng ({rooms.length})</span>
           </button>
 
           {/* Join Room by Code Button */}
@@ -492,6 +555,18 @@ export const GroupDebateCouncil: React.FC<GroupDebateCouncilProps> = ({
 
       {/* Main Tab Navigation Bar */}
       <div className="flex p-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-x-auto no-scrollbar">
+        <button
+          onClick={() => setActiveTab('lobby')}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'lobby'
+              ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+          }`}
+        >
+          <Layers className="w-4 h-4" />
+          Sảnh Tất Cả Phòng ({rooms.length})
+        </button>
+
         <button
           onClick={() => setActiveTab('chat')}
           className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
